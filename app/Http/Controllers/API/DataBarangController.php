@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\DataBarang;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class DataBarangController extends Controller
 {
@@ -17,10 +16,9 @@ class DataBarangController extends Controller
     public function index()
     {
         $databarangs = DataBarang::latest()->get();
-
-        return response()->json([
-           'data' => $databarangs
-        ],200);
+        $s = $_GET['s'];
+        $databarangs = DataBarang::getDataBarang($s)->paginate(3);
+        return response()->json([$databarangs],200);
     }
 
     /**
@@ -50,7 +48,7 @@ class DataBarangController extends Controller
 
         try {
             $fileName = time().$request->file('foto')->getClientOriginalName();
-            $path = $request->file('foto')->storeAs('uploads/fotobarang', $fileName);
+            $path = $request->file('foto')->storeAs('asset/images', $fileName);
             $validator['foto']=$path;
             $databarangs = DataBarang::create($validator);
             return response()->json([
@@ -115,7 +113,7 @@ class DataBarangController extends Controller
         try {
             if($request->file('foto')){
                 $fileName = time().$request->file('foto')->getClientOriginalName();
-                $path = $request->file('foto')->storeAs('uploads/fotobarang', $fileName);
+                $path = $request->file('foto')->storeAs('asset/images', $fileName);
                 $validator['foto']=$path;
             }
                 $response = DataBarang::find($idBarang);

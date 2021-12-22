@@ -17,7 +17,7 @@ class NamaPenjualController extends Controller
     {
         $namapenjuals = NamaPenjual::latest()->get();
 
-        $namapenjuals = NamaPenjual::getNamaPenjual()->paginate(3);
+        //$namapenjuals = NamaPenjual::getNamaPenjual()->paginate(3);
         return response()->json([
            'data' => $namapenjuals
         ],200);

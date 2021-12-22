@@ -18,7 +18,9 @@ class DataBarangController extends Controller
         $databarangs = DataBarang::latest()->get();
         $s = $_GET['s'];
         $databarangs = DataBarang::getDataBarang($s)->paginate(3);
-        return response()->json([$databarangs],200);
+        return response()->json(['message' => 'Success!',
+        'data' => $databarangs,
+    ], 200);
     }
 
     /**
